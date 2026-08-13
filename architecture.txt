@@ -1,0 +1,52 @@
+Resume + Job Description
+          ↓
+     Spring Boot API
+          ↓
+   Text Extraction
+          ↓
+      AI Analysis
+          ↓
+    Match Results
+          ↓
+      PostgreSQL
+          ↓
+       Angular
+
+AI Job Matcher
+│
+├── Java 21                 ✅
+├── Spring Boot 4.1        ✅
+├── Spring Web             ✅
+├── Spring Data JPA        ✅
+├── PostgreSQL             ✅
+├── Spring Security        ✅
+├── Kafka                  ✅
+├── Validation             ✅
+└── Docker PostgreSQL      ✅
+
+User
+ │
+ ├── Upload Resume
+ │
+ ├── Add Job Description
+ │
+ └── Analyze
+        │
+        ▼
+   AI Job Matcher
+        │
+   ┌────┴─────┐
+   ▼          ▼
+Resume       Job
+Analysis   Requirements
+   │          │
+   └────┬─────┘
+        ▼
+    Match Engine
+        │
+   ┌────┼────────────┐
+   ▼    ▼            ▼
+ Score Skills    Missing Skills
+        │
+        ▼
+  AI Recommendations
