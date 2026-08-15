@@ -1,0 +1,35 @@
+register API - 
+
+User Entity and User Repository created
+
+POST /api/auth/register
+          ↓
+   AuthController
+          ↓
+   RegisterRequest
+          ↓
+    AuthService
+          ↓
+   PasswordEncoder
+          ↓
+       BCrypt
+          ↓
+    UserRepository
+          ↓
+     PostgreSQL
+
+                    AI Job Matcher
+                          │
+              ┌───────────┴───────────┐
+              │                       │
+        Email + Password          Google Login
+              │                       │
+           BCrypt              OAuth 2.0 + OIDC
+              │                       │
+              └───────────┬───────────┘
+                          ↓
+                    Spring Security
+                          ↓
+                         JWT
+                          ↓
+                      Angular
