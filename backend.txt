@@ -1,3 +1,19 @@
+                    AI Job Matcher
+                          │
+              ┌───────────┴───────────┐
+              │                       │
+        Email + Password          Google Login
+              │                       │
+           BCrypt              OAuth 2.0 + OIDC
+              │                       │
+              └───────────┬───────────┘
+                          ↓
+                    Spring Security
+                          ↓
+                         JWT
+                          ↓
+                      Angular
+
 register API - 
 
 User Entity and User Repository created
@@ -18,18 +34,65 @@ POST /api/auth/register
           ↓
      PostgreSQL
 
-                    AI Job Matcher
-                          │
-              ┌───────────┴───────────┐
-              │                       │
-        Email + Password          Google Login
-              │                       │
-           BCrypt              OAuth 2.0 + OIDC
-              │                       │
-              └───────────┬───────────┘
-                          ↓
-                    Spring Security
-                          ↓
-                         JWT
-                          ↓
-                      Angular
+login API with JWT token -
+
+    POST /api/auth/login
+            ↓
+    AuthController
+            ↓
+    AuthService
+            ↓
+    Find user by email
+            ↓
+    BCrypt matches password
+            ↓
+    Generate JWT
+            ↓
+    Return JWT to Angular
+
+JWT Authentication - 
+                 HTTP REQUEST
+                      │
+                      ▼
+             JWT Authentication
+                   Filter
+                      │
+              ┌───────┴───────┐
+              │               │
+            Valid           Invalid
+              │               │
+              ▼               ▼
+       SecurityContext       401
+              │
+              ▼
+          Controller
+
+    example -
+            GET /api/jobs
+                   │
+                   │ Authorization:
+                   │ Bearer eyJ...
+                   ▼
+        JwtAuthenticationFilter
+                   │
+                   ▼
+          JwtService
+          isTokenValid()
+                   │
+              ✅ valid
+                   │
+                   ▼
+          extractEmail()
+                   │
+                   ▼
+        shruti@example.com
+                   │
+                   ▼
+       SecurityContextHolder
+                   │
+                   ▼
+          Spring Security
+          "User is authenticated"
+                   │
+                   ▼
+             /api/jobs

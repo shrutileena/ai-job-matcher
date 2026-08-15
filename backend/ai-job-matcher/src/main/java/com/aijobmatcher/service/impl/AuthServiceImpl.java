@@ -1,11 +1,16 @@
 package com.aijobmatcher.service.impl;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.aijobmatcher.dto.LoginRequest;
+import com.aijobmatcher.dto.LoginResponse;
 import com.aijobmatcher.dto.RegisterRequest;
 import com.aijobmatcher.entity.User;
 import com.aijobmatcher.repository.UserRepository;
+import com.aijobmatcher.security.JwtService;
 import com.aijobmatcher.service.AuthService;
 
 @Service
@@ -13,10 +18,17 @@ public class AuthServiceImpl implements AuthService {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final AuthenticationManager authenticationManager;
+	private final JwtService jwtService;
 	
-	public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+	public AuthServiceImpl(UserRepository userRepository, 
+			PasswordEncoder passwordEncoder,
+			AuthenticationManager authenticationManager,
+			JwtService jwtService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.authenticationManager = authenticationManager;
+		this.jwtService = jwtService;
 	}
 	
 	
@@ -37,5 +49,12 @@ public class AuthServiceImpl implements AuthService {
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		
 		userRepository.save(user);
+	}
+	
+	@Override
+	public LoginResponse login(LoginRequest request) {
+		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+		String token = jwtService.generateToken(request.getEmail());
+		return new LoginResponse(token);
 	}
 }
